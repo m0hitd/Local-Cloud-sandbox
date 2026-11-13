@@ -2,11 +2,9 @@
 
 ## Overview
 
-The **Local Multi-Cloud Cloud-Native Sandbox** is a comprehensive, zero-cost cloud engineering environment designed to replicate an entire enterprise multi-cloud ecosystem locally. Rather than serving as a single application pipeline, this platform provides a modular foundation that locally emulates core **Amazon Web Services (AWS)**, **Google Cloud Platform (GCP)**, and **Cloud-Native** primitives—allowing engineers to provision virtual machines, object storage, serverless functions, NoSQL/SQL databases, secret managers, and Kubernetes clusters entirely offline.
+The Local Multi-Cloud Cloud-Native Sandbox is a zero-cost environment for practicing cloud engineering on your own machine. It copies the basic setup of a company that runs on several clouds, so you can work through it without an internet connection or a bill. You can create virtual machines, object storage, serverless functions, databases, secrets, and Kubernetes clusters, all locally.
 
-Under the hood, the sandbox orchestrates a multi-service Docker Compose backend alongside a local **Minikube Kubernetes** cluster and **Terraform** Infrastructure-as-Code (IaC) blueprints. Cross-boundary networking (`host.minikube.internal`) seamlessly bridges isolated Kubernetes workloads with host-level cloud emulators (LocalStack, GCP BigQuery/GCS/PubSub Emulators, MinIO, and PostgreSQL). To demonstrate the sandbox in action, it includes a reference **Event-Driven ETL Microservice Pipeline** alongside standalone modules for testing compute, storage, and database integrations.
-
-Created and architected by **Mohit Debnath** (Google Cloud Certified Associate Cloud Engineer), this project showcases end-to-end proficiency in multi-cloud architecture, container orchestration, Infrastructure-as-Code, and local-first environment engineering.
+Docker Compose runs the cloud emulators and backend services, while a Minikube Kubernetes cluster and Terraform configurations handle the infrastructure side. The two sides connect through host.minikube.internal, which lets workloads inside Kubernetes reach LocalStack, the GCP emulators for BigQuery, Cloud Storage, and Pub/Sub, MinIO, and PostgreSQL running on the host. To show how the pieces fit, the project includes an event-driven ETL pipeline as an example. It also has separate modules for testing compute, storage, and database integrations.
 
 ---
 
