@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sandbox-config
+data:
+  SQS_ENDPOINT_URL: "http://host.minikube.internal:4566"
+  SQS_QUEUE_NAME: "order-queue"
+  AWS_DEFAULT_REGION: "us-east-1"
+  BQ_EMULATOR_HOST: "http://host.minikube.internal:9050"
+  GCP_PROJECT_ID: "local-analytics-project"
+  BQ_DATASET_ID: "ecommerce_data"
+  BQ_TABLE_NAME: "processed_orders"

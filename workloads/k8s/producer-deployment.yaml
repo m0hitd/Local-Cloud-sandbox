@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-producer-deployment
+  labels:
+    app: order-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-producer
+  template:
+    metadata:
+      labels:
+        app: order-producer
+    spec:
+      containers:
+      - name: order-producer
+        image: order-producer:v2
+        imagePullPolicy: Never
+        envFrom:
+        - configMapRef:
+            name: sandbox-config
+        - secretRef:
+            name: sandbox-aws-credentials
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi

@@ -1,0 +1,47 @@
+services:
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=ec2,s3,sqs,sns,lambda,dynamodb,iam,secretsmanager,sts
+      - DEFAULT_REGION=us-east-1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      # Recent LocalStack images may require an auth token. Uncomment if startup asks for one.
+      # - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  bigquery:
+    image: ghcr.io/goccy/bigquery-emulator:latest
+    command: ["--project=local-analytics-project", "--port=9050"]
+    ports:
+      - "9050:9050"
+
+  fake-gcs:
+    image: fsouza/fake-gcs-server:latest
+    # External URL keeps upload session links pointing at the host, not the container
+    command: ["-scheme", "http", "-port", "4443", "-external-url", "http://localhost:4443"]
+    ports:
+      - "4443:4443"
+
+  gcp-pubsub:
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:emulators
+    command: ["gcloud", "beta", "emulators", "pubsub", "start", "--host-port=0.0.0.0:8085"]
+    ports:
+      - "8085:8085"
+
+  gcp-firestore:
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:emulators
+    command: ["gcloud", "beta", "emulators", "firestore", "start", "--host-port=0.0.0.0:8080"]
+    ports:
+      - "8080:8080"
+
+  postgres-rds:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sandbox_admin
+      POSTGRES_PASSWORD: localdevpassword
+      POSTGRES_DB: cloud_sandbox_db
+    ports:
+      - "5432:5432"

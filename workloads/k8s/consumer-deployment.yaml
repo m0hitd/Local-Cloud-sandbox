@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-consumer-deployment
+  labels:
+    app: order-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-consumer
+  template:
+    metadata:
+      labels:
+        app: order-consumer
+    spec:
+      containers:
+      - name: order-consumer
+        image: order-consumer:v1
+        imagePullPolicy: Never
+        ports:
+        - name: health
+          containerPort: 8080
+        env:
+        - name: HEALTH_PORT
+          value: "8080"
+        envFrom:
+        - configMapRef:
+            name: sandbox-config
+        - secretRef:
+            name: sandbox-aws-credentials
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: health
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi

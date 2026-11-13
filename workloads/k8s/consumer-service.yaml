@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-consumer-service
+  labels:
+    app: order-consumer
+spec:
+  type: ClusterIP
+  selector:
+    app: order-consumer
+  ports:
+  - name: health
+    port: 80
+    targetPort: health
